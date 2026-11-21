@@ -1,14 +1,10 @@
-FROM ubuntu:focal
+FROM node:22-alpine
 
-RUN apt-get update
-RUN apt-get install -y curl
-RUN curl -sL https://deb.nodesource.com/setup_20.x bash -
-RUN apt-get upgrade -y
-RUN apt-get install -y nodejs
+RUN apk add --no-cache git
 
-RUN apt-get install git -y
+WORKDIR /app
+COPY package*.json ./
+RUN npm install
+COPY . .
 
-WORKDIR /home/app
-
-COPY main.sh main.sh
-ENTRYPOINT [ "/home/app/main.sh" ]
+CMD ["node", "script.js"]
